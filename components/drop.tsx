@@ -1,69 +1,104 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties, memo } from "react";
+
+export interface DropProps {
+	posx: number;
+	posy: number;
+	angle: number;
+	offset: number;
+	opacity: number;
+	isActive: boolean;
+	content: string;
+	onClick: () => void;
+	setIsHover: (isHover: boolean) => void;
+}
 
 const containerStyle: CSSProperties = {
 	position: "absolute",
-	top: "-2.5em",
-	left: "-2.5em",
+	top: "-4rem",
+	left: "-4rem",
 };
 const tailStyle: CSSProperties = {
 	position: "absolute",
-	transformOrigin: "2.5em 0em",
+	transformOrigin: "4rem 0rem",
 };
 
 const tailPathStyle: CSSProperties = {
-	fill: "url(#Gradient)",
 	paintOrder: "stroke fill markers",
 };
 
 const budStyle: CSSProperties = {
-	backgroundColor: "#ff00ff",
-	width: "5em",
-	height: "5em",
+	// backgroundColor: "#ff00ff",
+	width: "8rem",
+	height: "8rem",
 	borderRadius: "50%",
 	display: "flex",
 	justifyContent: "center",
 	alignItems: "center",
 	position: "absolute",
+	fontSize: "2rem",
+	fontFamily: '"Josefin Sans", sans-serif',
+	// zIndex: 1,
 };
 
-const Drop = () => {
-	const [pos, setPos] = useState({ x: 0, y: 0 });
-	const [angle, setAngle] = useState(0);
-	const [offset, setOffset] = useState(100);
-
+const Drop = ({
+	posx,
+	posy,
+	angle,
+	offset,
+	opacity,
+	isActive,
+	content,
+	onClick,
+	setIsHover,
+}: DropProps) => {
 	return (
 		<div
-			className="drop"
-			style={{
-				...containerStyle,
-				transform: `translate( ${pos.x}px,  ${pos.y}px )`,
-			}}
+			className="drop-container"
+			style={{ position: "relative" }}
+			onMouseEnter={() => setIsHover(true)}
+			onMouseLeave={() => setIsHover(false)}
+			onClick={onClick}
 		>
-			<svg
-				width="5em"
-				viewBox="0 0 30 80"
+			<div
+				className="drop"
 				style={{
-					...tailStyle,
-					transform: `translatey(2.5em) rotate(${angle}rad)`,
+					...containerStyle,
+					transform: `translate( ${posx}em,  ${posy}em )`,
+					filter: `opacity(${opacity}%)`,
 				}}
-				className="spin"
-				id="tail"
 			>
-				<linearGradient id="Gradient" x1="0" x2="0" y1="0" y2="1">
-					<stop offset="0%" stopColor="#ff00ffff" />
-					<stop offset={`${offset}%`} stopColor="#ff00ff00" id="stop" />
-				</linearGradient>
-				<path
-					xmlns="http://www.w3.org/2000/svg"
-					d="m13.993 80 2.0141-1.29e-4c0.82825-60.298 13.993-80 13.993-80h-30s13.639 19.586 13.993 80z"
-					style={tailPathStyle}
-				/>
-			</svg>
-			<div style={budStyle}>
-				<div>text here</div>
+				<svg
+					width="8em"
+					viewBox="0 0 30 80"
+					style={{
+						...tailStyle,
+						transform: `translatey(4em) rotate(${angle}rad)`,
+					}}
+					className="spin"
+					id="tail"
+				>
+					<linearGradient
+						id={`Gradient-${content}`}
+						x1="0"
+						x2="0"
+						y1="0"
+						y2="1"
+					>
+						<stop offset="0%" />
+						<stop offset={`${offset}%`} />
+					</linearGradient>
+					<path
+						xmlns="http://www.w3.org/2000/svg"
+						d="m13.993 80 2.0141-1.29e-4c0.82825-60.298 13.993-80 13.993-80h-30s13.639 19.586 13.993 80z"
+						style={{ ...tailPathStyle, fill: `url(#Gradient-${content})` }}
+					/>
+				</svg>
+				<div className="bud" style={budStyle}>
+					<div>{content}</div>
+				</div>
 			</div>
 		</div>
 	);
 };
 
-export default Drop;
+export default memo(Drop);

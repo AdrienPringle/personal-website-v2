@@ -1,16 +1,55 @@
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	padding: 0;
+	margin: 0;
+
+	/* font-family: "Josefin Sans", sans-serif;
+	font-family: "Josefin Slab", serif; */
+	font-family: "Inter", sans-serif;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 16px;
+}
+
+@media (max-width: 1600px) {
+	html {
+		font-size: calc(1vw);
+	}
+}
+
+.underline-hover:hover {
+	text-decoration: underline;
+}
+
+.drop-container stop:first-child {
+	stop-color: #58a4b0;
+	transition: stop-color 0.2s;
+}
+.drop-container stop:last-child {
+	stop-color: #ffffff;
+	transition: stop-color 0.2s;
+}
+.drop-container .bud {
+	background-color: #58a4b0;
+	transition: background-color 0.2s;
+}
+.drop-container:hover stop:first-child {
+	stop-color: #f56476;
+}
+
+.drop-container:hover stop:last-child {
+	stop-color: #ffffff;
+}
+.drop-container:hover .bud {
+	background-color: #f56476;
 }

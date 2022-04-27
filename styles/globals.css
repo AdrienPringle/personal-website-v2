@@ -53,3 +53,31 @@ html {
 .drop-container:hover .bud {
 	background-color: #f56476;
 }
+
+.shape {
+	transition: stroke 0.2s;
+}
+
+.shape-color-default {
+	stroke: #1f1f1fff;
+}
+
+.shape-color-default.shape-invisible {
+	stroke: #1f1f1f00;
+}
+
+.shape-color-red {
+	stroke: #f56476ff;
+}
+
+.shape-color-red.shape-invisible {
+	stroke: #f5647600;
+}
+
+.shape-color-blue {
+	stroke: #58a4b0ff;
+}
+
+.shape-color-blue.shape-invisible {
+	stroke: #58a4b000;
+}

@@ -58,7 +58,12 @@ const statePageRight: DropState = {
 };
 
 type Content = "resume" | "projects" | "contact";
-type Pages = "main_page" | "resume_page" | "projects_page" | "contact_page";
+export type Pages =
+	| "main_page"
+	| "resume_page"
+	| "projects_page"
+	| "contact_page";
+
 const stateMap: {
 	[p in Pages]: { [c in Content]: DropState };
 } = {
@@ -110,8 +115,13 @@ const pageToSubMap: { [p in Pages]: string } = {
 	contact_page: "Contact",
 };
 
-const Header = () => {
-	const [page, setPage] = useState<Pages>("main_page");
+interface HeaderProps {
+	page: Pages;
+	setPage: (page: Pages) => void;
+}
+
+const Header = ({ page, setPage }: HeaderProps) => {
+	// const [page, setPage] = useState<Pages>("main_page");
 	const [isAnimating, setIsAnimating] = useState(false);
 	// const [pagenum, setpagenum] = useState(0);
 

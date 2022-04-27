@@ -67,8 +67,14 @@ const AnimatedDrop = ({
 					damping: isHover && !isAnimating ? 7 : 17,
 					stiffness: isHover && !isAnimating ? 400 : 170,
 				}),
-				tailPosx: spring(tailPosx),
-				tailPosy: spring(tailPosy),
+				tailPosx: spring(tailPosx, {
+					damping: 20,
+					stiffness: 400,
+				}),
+				tailPosy: spring(tailPosy, {
+					damping: 20,
+					stiffness: 400,
+				}),
 				offset: spring(offset),
 				opacity: spring(isActive ? 100 : 0),
 			}}

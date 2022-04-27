@@ -3,9 +3,13 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
-import Header from "../components/header";
+import Header, { Pages } from "../components/header";
+import Background from "../components/background";
+
+import { useState } from "react";
 
 const Home: NextPage = () => {
+	const [page, setPage] = useState<Pages>("main_page");
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -26,7 +30,17 @@ const Home: NextPage = () => {
 
 			<main className={styles.main}>
 				{/* <AnimatedDrop posx={0} posy={0} tailPosx={-100} tailPosy={-100} /> */}
-				<Header />
+				<Background<Pages>
+					stateMap={{
+						main_page: (x, y) => Math.abs(x - 0.5) - 0.5 * y + 0.9 > 1,
+						resume_page: (x, y) => x < 0.15 || x > 0.85,
+						projects_page: (x, y) => x < 0.15 || x > 0.85,
+						contact_page: (x, y) =>
+							x < 0.15 || x > 0.85 || y + (x - 0.5) * (x - 0.5) > 0.75,
+					}}
+					state={page}
+				/>
+				<Header page={page} setPage={setPage} />
 			</main>
 		</div>
 	);

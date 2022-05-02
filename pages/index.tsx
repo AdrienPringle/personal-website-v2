@@ -5,11 +5,22 @@ import styles from "../styles/Home.module.css";
 
 import Header, { Pages } from "../components/header";
 import Background from "../components/background";
+import Card from "../components/projects/card";
+import Projects from "../components/projects";
 
 import { useState } from "react";
+import ScrollContainer from "../components/scrollContainer";
+
+const stateMap: { [state in Pages]: (x: number, y: number) => boolean } = {
+	main_page: (x, y) => Math.abs(x - 0.5) - 1 * y > 0.15,
+	resume_page: (x, y) => x < 0.17 || x > 0.83,
+	projects_page: (x, y) => x < 0.17 || x > 0.83,
+	contact_page: (x, y) =>
+		x < 0.17 || x > 0.83 || y + (x - 0.5) * (x - 0.5) > 0.75,
+};
 
 const Home: NextPage = () => {
-	const [page, setPage] = useState<Pages>("main_page");
+	const [page, setPage] = useState<Pages>("projects_page");
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -30,17 +41,11 @@ const Home: NextPage = () => {
 
 			<main className={styles.main}>
 				{/* <AnimatedDrop posx={0} posy={0} tailPosx={-100} tailPosy={-100} /> */}
-				<Background<Pages>
-					stateMap={{
-						main_page: (x, y) => Math.abs(x - 0.5) - 0.5 * y + 0.9 > 1,
-						resume_page: (x, y) => x < 0.15 || x > 0.85,
-						projects_page: (x, y) => x < 0.15 || x > 0.85,
-						contact_page: (x, y) =>
-							x < 0.15 || x > 0.85 || y + (x - 0.5) * (x - 0.5) > 0.75,
-					}}
-					state={page}
-				/>
+				<Background<Pages> stateMap={stateMap} state={page} />
 				<Header page={page} setPage={setPage} />
+				<ScrollContainer buttonText="View PDF">
+					<Projects />
+				</ScrollContainer>
 			</main>
 		</div>
 	);

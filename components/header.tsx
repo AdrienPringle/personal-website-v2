@@ -99,6 +99,7 @@ const subStyle: CSSProperties = {
 	fontSize: "3rem",
 	fontFamily: '"Josefin Slab", sans-serif',
 	zIndex: 2,
+	pointerEvents: "none",
 	transition: "transform 0.2s",
 };
 const containerStyle: CSSProperties = {
@@ -106,6 +107,11 @@ const containerStyle: CSSProperties = {
 	flexDirection: "column",
 	alignItems: "center",
 	transition: "transform 0.2s",
+	position: "fixed",
+	top: 0,
+	left: 0,
+	right: 0,
+	zIndex: 5,
 };
 
 const pageToSubMap: { [p in Pages]: string } = {
@@ -143,8 +149,8 @@ const Header = ({ page, setPage }: HeaderProps) => {
 
 	const isMain = page === "main_page";
 
-	{
-	}
+	const nameScale = isMain ? 1 : 0.3;
+	const subScale = isMain ? 1 : 2.5;
 	return (
 		<div
 			style={{
@@ -153,13 +159,21 @@ const Header = ({ page, setPage }: HeaderProps) => {
 			}}
 		>
 			<div
-				style={{ ...nameStyle, transform: `scale(${isMain ? 100 : 30}%)` }}
+				style={{
+					...nameStyle,
+					transform: `scale(${nameScale}, ${nameScale})`,
+				}}
 				onClick={() => setPage("main_page")}
 				className={isMain ? "" : "underline-hover"}
 			>
 				Adrien Pringle
 			</div>
-			<div style={{ ...subStyle, transform: `scale(${isMain ? 100 : 250}%)` }}>
+			<div
+				style={{
+					...subStyle,
+					transform: `scale(${subScale}, ${subScale})`,
+				}}
+			>
 				{pageToSubMap[page]}
 			</div>
 			{/* <button onClick={() => setpagenum((pagenum + 1) % 4)}>click</button> */}

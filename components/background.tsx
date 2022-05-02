@@ -115,13 +115,11 @@ const Background = <State extends string>({
 		const scale = width / 1680;
 		setScale(width / 1680);
 
-		console.log(width);
-
 		const distance = 130 * scale;
 		const vertDist = 0.707 * distance;
 
-		const numX = Math.ceil(width / distance);
-		const numY = Math.ceil(height / vertDist);
+		const numX = Math.ceil(width / distance) + 1;
+		const numY = Math.ceil(height / vertDist) + 1;
 
 		const initShapes: Shape<State>[] = [];
 
@@ -134,13 +132,17 @@ const Background = <State extends string>({
 			for (let j = 0; j < numX; j++) {
 				const x =
 					(j + (i % 2) * 0.5) * distance +
-					(Math.random() - 0.5) * distance * 0.25;
+					(Math.random() - 0.5) * distance * 0.25 -
+					15;
 				const y = i * vertDist + (Math.random() - 0.5) * vertDist * 0.25;
 				const angle = Math.random() * 360;
 				const type = Math.floor(Math.random() * 4);
 
 				const visibilityMap = Object.fromEntries(
-					stateMapArr.map(([key, func]) => [key, func(x / width, y / height)])
+					stateMapArr.map(([key, func]) => [
+						key,
+						func((x + 15) / width, y / height),
+					])
 				) as { [state in State]: boolean };
 
 				const colorNum = Math.floor(Math.random() * 16);
@@ -170,7 +172,7 @@ const Background = <State extends string>({
 		const props = {
 			fill: "white",
 			// stroke: `#1F1F1F${shape.visibilityMap[state] ? "ff" : "00"}`,
-			strokeWidth: "1",
+			strokeWidth: "0.06rem",
 			className: `
                 shape
                 shape-type-${shape.type}
@@ -190,7 +192,6 @@ const Background = <State extends string>({
 			/>
 		);
 	};
-
 	return (
 		<svg
 			width={svgWitdh}

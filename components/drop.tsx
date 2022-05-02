@@ -54,7 +54,10 @@ const Drop = ({
 	return (
 		<div
 			className="drop-container"
-			style={{ position: "relative" }}
+			style={{
+				position: "relative",
+				pointerEvents: isActive ? "auto" : "none",
+			}}
 			onMouseEnter={() => setIsHover(true)}
 			onMouseLeave={() => setIsHover(false)}
 			onClick={onClick}

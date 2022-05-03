@@ -25,23 +25,33 @@ const scrollMaskStyle: CSSProperties = {
 };
 
 const buttonStyle: CSSProperties = {
-	// height: "3rem",
 	marginBottom: "-1.4rem", //font 2 + padding 0.4
 	backgroundColor: "#ffffff",
 	border: "0.08rem solid black",
 	borderRadius: "0.5rem",
-
 	padding: "0.4rem",
 	paddingBottom: 0,
-
 	fontFamily: '"Josefin Sans", sans-serif',
 	fontSize: "2rem",
+
+	overflow: "hidden",
+
+	position: "relative",
 };
 
 const scrollContainerStyle: CSSProperties = {
 	width: "100%",
 	paddingLeft: "20%",
 	paddingRight: "20%",
+};
+
+const buttonBackgroundStyle: CSSProperties = {
+	position: "absolute",
+	top: 0,
+	left: 0,
+	zIndex: 1,
+	width: "20rem",
+	height: "10rem",
 };
 
 const ScrollContainer: React.FC<Props> = ({
@@ -53,8 +63,17 @@ const ScrollContainer: React.FC<Props> = ({
 		<div style={scrollContainerStyle}>
 			<div style={scrollMaskStyle}>
 				{buttonText && (
-					<button style={buttonStyle} onClick={onButtonClick}>
-						{buttonText}
+					<button
+						className="divider-button"
+						style={buttonStyle}
+						onClick={onButtonClick}
+					>
+						<div style={{ zIndex: 2, position: "relative" }}> {buttonText}</div>
+
+						<div
+							style={buttonBackgroundStyle}
+							className="divider-button-background"
+						></div>
 					</button>
 				)}
 			</div>

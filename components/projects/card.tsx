@@ -32,6 +32,12 @@ const imageContainerStyle: CSSProperties = {
 	justifyContent: "center",
 };
 
+const imageSizeContainerStyle: CSSProperties = {
+	width: "6rem",
+	height: "6rem",
+	position: "relative",
+};
+
 const titleStyle: CSSProperties = {
 	fontWeight: "bold",
 	marginBottom: "1rem",
@@ -53,7 +59,9 @@ const Card = ({ data }: CardProps) => {
 	return (
 		<div style={containerStyle}>
 			<div style={imageContainerStyle}>
-				<Image width="50" height="50" src={data.imgUrl} alt={data.title} />
+				<div style={imageSizeContainerStyle}>
+					<Image layout="fill" src={data.imgUrl} alt={data.title} />
+				</div>
 			</div>
 
 			<div style={titleStyle}>{data.title}</div>

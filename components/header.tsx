@@ -1,5 +1,5 @@
 import { CSSProperties, useState } from "react";
-import { Motion, spring } from "react-motion";
+import { useRouter } from "next/router";
 
 import AnimatedDrop, { AnimatedDropProps } from "./animatedDrop";
 
@@ -58,31 +58,27 @@ const statePageRight: DropState = {
 };
 
 type Content = "resume" | "projects" | "contact";
-export type Pages =
-	| "main_page"
-	| "resume_page"
-	| "projects_page"
-	| "contact_page";
+export type Pages = "/" | "resume" | "projects" | "contact";
 
 const stateMap: {
 	[p in Pages]: { [c in Content]: DropState };
 } = {
-	main_page: {
+	"/": {
 		resume: stateMainLeft,
 		projects: stateMainMiddle,
 		contact: stateMainRight,
 	},
-	resume_page: {
+	resume: {
 		resume: statePageMiddle,
 		projects: statePageLeft,
 		contact: statePageRight,
 	},
-	projects_page: {
+	projects: {
 		resume: statePageLeft,
 		projects: statePageMiddle,
 		contact: statePageRight,
 	},
-	contact_page: {
+	contact: {
 		resume: statePageLeft,
 		projects: statePageRight,
 		contact: statePageMiddle,
@@ -115,20 +111,20 @@ const containerStyle: CSSProperties = {
 };
 
 const pageToSubMap: { [p in Pages]: string } = {
-	main_page: "i make software",
-	resume_page: "Resume",
-	projects_page: "Projects",
-	contact_page: "Contact",
+	"/": "i make software",
+	resume: "Resume",
+	projects: "Projects",
+	contact: "Contact",
 };
 
 interface HeaderProps {
 	page: Pages;
-	setPage: (page: Pages) => void;
 }
 
-const Header = ({ page, setPage }: HeaderProps) => {
+const Header = ({ page }: HeaderProps) => {
 	// const [page, setPage] = useState<Pages>("main_page");
 	const [isAnimating, setIsAnimating] = useState(false);
+	const router = useRouter();
 	// const [pagenum, setpagenum] = useState(0);
 
 	// const pages: Pages[] = [
@@ -142,12 +138,12 @@ const Header = ({ page, setPage }: HeaderProps) => {
 	// const page = pages[pagenum];
 
 	const transition = (newPage: Pages) => {
-		setPage(newPage);
+		router.push(newPage);
 		setIsAnimating(true);
 		setTimeout(() => setIsAnimating(false), 600);
 	};
 
-	const isMain = page === "main_page";
+	const isMain = page === "/";
 
 	const nameScale = isMain ? 1 : 0.3;
 	const subScale = isMain ? 1 : 2.5;
@@ -163,7 +159,7 @@ const Header = ({ page, setPage }: HeaderProps) => {
 					...nameStyle,
 					transform: `scale(${nameScale}, ${nameScale})`,
 				}}
-				onClick={() => setPage("main_page")}
+				onClick={() => transition("/")}
 				className={isMain ? "" : "underline-hover"}
 			>
 				Adrien Pringle
@@ -182,19 +178,19 @@ const Header = ({ page, setPage }: HeaderProps) => {
 					content="resume"
 					isAnimating={isAnimating}
 					{...stateMap[page].resume}
-					onClick={() => transition("resume_page")}
+					onClick={() => transition("resume")}
 				/>
 				<AnimatedDrop
 					content="projects"
 					isAnimating={isAnimating}
 					{...stateMap[page].projects}
-					onClick={() => transition("projects_page")}
+					onClick={() => transition("projects")}
 				/>
 				<AnimatedDrop
 					content="contact"
 					isAnimating={isAnimating}
 					{...stateMap[page].contact}
-					onClick={() => transition("contact_page")}
+					onClick={() => transition("contact")}
 				/>
 			</div>
 		</div>

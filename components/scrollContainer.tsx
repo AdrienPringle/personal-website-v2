@@ -2,6 +2,7 @@ import { relative } from "node:path/win32";
 import { CSSProperties, memo } from "react";
 
 interface Props {
+	visible: boolean;
 	children?: React.ReactNode;
 	buttonText?: string;
 	onButtonClick?: () => void;
@@ -56,28 +57,34 @@ const buttonBackgroundStyle: CSSProperties = {
 };
 
 const ScrollContainer: React.FC<Props> = ({
+	visible,
 	children,
 	buttonText,
 	onButtonClick,
 }) => {
 	return (
 		<div style={scrollContainerStyle}>
-			<div style={scrollMaskStyle}>
-				{buttonText && (
-					<button
-						className="divider-button"
-						style={buttonStyle}
-						onClick={onButtonClick}
-					>
-						<div style={{ zIndex: 2, position: "relative" }}> {buttonText}</div>
+			{visible && (
+				<div style={scrollMaskStyle}>
+					{buttonText && (
+						<button
+							className="divider-button"
+							style={buttonStyle}
+							onClick={onButtonClick}
+						>
+							<div style={{ zIndex: 2, position: "relative" }}>
+								{" "}
+								{buttonText}
+							</div>
 
-						<div
-							style={buttonBackgroundStyle}
-							className="divider-button-background"
-						></div>
-					</button>
-				)}
-			</div>
+							<div
+								style={buttonBackgroundStyle}
+								className="divider-button-background"
+							></div>
+						</button>
+					)}
+				</div>
+			)}
 
 			{children}
 		</div>

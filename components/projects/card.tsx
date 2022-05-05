@@ -1,10 +1,10 @@
 import { CSSProperties, memo } from "react";
 import Image from "next/image";
 
-import type { Data } from "./data";
+import type { ProjectData } from "./data";
 
 interface CardProps {
-	data: Data;
+	data: ProjectData;
 }
 
 const containerStyle: CSSProperties = {

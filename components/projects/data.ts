@@ -1,11 +1,11 @@
-export interface Data {
+export interface ProjectData {
 	title: string;
 	imgUrl: string;
 	description: string;
 	links: { text: string; url: string }[];
 }
 
-const data: Data[] = [
+const data: ProjectData[] = [
 	{
 		title: "project 1",
 		imgUrl: "/project1.png",

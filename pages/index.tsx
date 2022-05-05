@@ -10,6 +10,8 @@ import Projects from "../components/projects";
 
 import { useState } from "react";
 import ScrollContainer from "../components/scrollContainer";
+import Resume from "../components/resume";
+import Contact from "../components/contact";
 
 const stateMap: { [state in Pages]: (x: number, y: number) => boolean } = {
 	main_page: (x, y) => Math.abs(x - 0.5) - 1 * y > 0.15,
@@ -40,11 +42,12 @@ const Home: NextPage = () => {
 			</Head>
 
 			<main className={styles.main}>
-				{/* <AnimatedDrop posx={0} posy={0} tailPosx={-100} tailPosy={-100} /> */}
 				<Background<Pages> stateMap={stateMap} state={page} />
 				<Header page={page} setPage={setPage} />
 				<ScrollContainer buttonText="View PDF">
-					<Projects />
+					{/* <Projects /> */}
+					{/* <Resume /> */}
+					<Contact />
 				</ScrollContainer>
 			</main>
 		</div>

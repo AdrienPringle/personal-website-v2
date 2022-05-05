@@ -29,6 +29,7 @@ const buttonStyle: CSSProperties = {
 	backgroundColor: "#ffffff",
 	border: "0.08rem solid black",
 	borderRadius: "0.5rem",
+	// boxSizing: "border-box",
 	padding: "0.4rem",
 	paddingBottom: 0,
 	fontFamily: '"Josefin Sans", sans-serif',

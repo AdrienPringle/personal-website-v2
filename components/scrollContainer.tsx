@@ -41,12 +41,6 @@ const buttonStyle: CSSProperties = {
 	position: "relative",
 };
 
-const scrollContainerStyle: CSSProperties = {
-	width: "100%",
-	paddingLeft: "20%",
-	paddingRight: "20%",
-};
-
 const buttonBackgroundStyle: CSSProperties = {
 	position: "absolute",
 	top: 0,
@@ -63,7 +57,7 @@ const ScrollContainer: React.FC<Props> = ({
 	onButtonClick,
 }) => {
 	return (
-		<div style={scrollContainerStyle}>
+		<div className="scroll-container">
 			{visible && (
 				<div style={scrollMaskStyle}>
 					{buttonText && (

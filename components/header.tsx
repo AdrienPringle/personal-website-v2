@@ -16,6 +16,16 @@ const stateMainLeft: DropState = {
 	offset: 80,
 	isActive: true,
 };
+
+const stateMainLeftMobile: DropState = {
+	tailPosx: 0,
+	tailPosy: -5,
+	posx: -12,
+	posy: 20,
+	offset: 80,
+	isActive: true,
+};
+
 const stateMainMiddle: DropState = {
 	tailPosx: 0,
 	tailPosy: 0,
@@ -24,6 +34,16 @@ const stateMainMiddle: DropState = {
 	offset: 80,
 	isActive: true,
 };
+
+const stateMainMiddleMobile: DropState = {
+	tailPosx: 0,
+	tailPosy: -5,
+	posx: 0,
+	posy: 30,
+	offset: 80,
+	isActive: true,
+};
+
 const stateMainRight: DropState = {
 	tailPosx: 0,
 	tailPosy: 0,
@@ -32,6 +52,16 @@ const stateMainRight: DropState = {
 	offset: 80,
 	isActive: true,
 };
+
+const stateMainRightMobile: DropState = {
+	tailPosx: 0,
+	tailPosy: -5,
+	posx: 12,
+	posy: 20,
+	offset: 80,
+	isActive: true,
+};
+
 const statePageLeft: DropState = {
 	tailPosx: 0,
 	tailPosy: -4,
@@ -40,6 +70,16 @@ const statePageLeft: DropState = {
 	offset: 80,
 	isActive: true,
 };
+
+const statePageLeftMobile: DropState = {
+	tailPosx: -30,
+	tailPosy: -3,
+	posx: -18,
+	posy: -2,
+	offset: 80,
+	isActive: true,
+};
+
 const statePageMiddle: DropState = {
 	tailPosx: 0,
 	tailPosy: -4,
@@ -48,6 +88,16 @@ const statePageMiddle: DropState = {
 	offset: 0,
 	isActive: false,
 };
+
+const statePageMiddleMobile: DropState = {
+	tailPosx: 0,
+	tailPosy: -4,
+	posx: 0,
+	posy: -16,
+	offset: 0,
+	isActive: false,
+};
+
 const statePageRight: DropState = {
 	tailPosx: 0,
 	tailPosy: -4,
@@ -57,31 +107,40 @@ const statePageRight: DropState = {
 	isActive: true,
 };
 
+const statePageRightMobile: DropState = {
+	tailPosx: 30,
+	tailPosy: -3,
+	posx: 18,
+	posy: -2,
+	offset: 80,
+	isActive: true,
+};
+
 type Content = "resume" | "projects" | "contact";
 export type Pages = "/" | "resume" | "projects" | "contact";
 
 const stateMap: {
-	[p in Pages]: { [c in Content]: DropState };
+	[p in Pages]: { [c in Content]: [DropState, DropState] };
 } = {
 	"/": {
-		resume: stateMainLeft,
-		projects: stateMainMiddle,
-		contact: stateMainRight,
+		resume: [stateMainLeft, stateMainLeftMobile],
+		projects: [stateMainMiddle, stateMainMiddleMobile],
+		contact: [stateMainRight, stateMainRightMobile],
 	},
 	resume: {
-		resume: statePageMiddle,
-		projects: statePageLeft,
-		contact: statePageRight,
+		resume: [statePageMiddle, statePageMiddleMobile],
+		projects: [statePageLeft, statePageLeftMobile],
+		contact: [statePageRight, statePageRightMobile],
 	},
 	projects: {
-		resume: statePageLeft,
-		projects: statePageMiddle,
-		contact: statePageRight,
+		resume: [statePageLeft, statePageLeftMobile],
+		projects: [statePageMiddle, statePageMiddleMobile],
+		contact: [statePageRight, statePageRightMobile],
 	},
 	contact: {
-		resume: statePageLeft,
-		projects: statePageRight,
-		contact: statePageMiddle,
+		resume: [statePageLeft, statePageLeftMobile],
+		projects: [statePageRight, statePageRightMobile],
+		contact: [statePageMiddle, statePageMiddleMobile],
 	},
 };
 
@@ -119,9 +178,10 @@ const pageToSubMap: { [p in Pages]: string } = {
 
 interface HeaderProps {
 	page: Pages;
+	windowWidth: number;
 }
 
-const Header = ({ page }: HeaderProps) => {
+const Header = ({ page, windowWidth }: HeaderProps) => {
 	// const [page, setPage] = useState<Pages>("main_page");
 	const [isAnimating, setIsAnimating] = useState(false);
 	const router = useRouter();
@@ -145,13 +205,15 @@ const Header = ({ page }: HeaderProps) => {
 
 	const isMain = page === "/";
 
+	const isMobile = windowWidth <= 480 ? 1 : 0;
+
 	const nameScale = isMain ? 1 : 0.3;
 	const subScale = isMain ? 1 : 2.5;
 	return (
 		<div
 			style={{
 				...containerStyle,
-				transform: `translateY(${isMain ? 10 : 0}em)`,
+				transform: `translateY(${isMain ? (isMobile ? 28 : 10) : 0}em)`,
 			}}
 		>
 			<div
@@ -177,19 +239,19 @@ const Header = ({ page }: HeaderProps) => {
 				<AnimatedDrop
 					content="resume"
 					isAnimating={isAnimating}
-					{...stateMap[page].resume}
+					{...stateMap[page].resume[isMobile]}
 					onClick={() => transition("resume")}
 				/>
 				<AnimatedDrop
 					content="projects"
 					isAnimating={isAnimating}
-					{...stateMap[page].projects}
+					{...stateMap[page].projects[isMobile]}
 					onClick={() => transition("projects")}
 				/>
 				<AnimatedDrop
 					content="contact"
 					isAnimating={isAnimating}
-					{...stateMap[page].contact}
+					{...stateMap[page].contact[isMobile]}
 					onClick={() => transition("contact")}
 				/>
 			</div>

@@ -21,13 +21,33 @@ a:visited {
 }
 
 html {
-	font-size: 16px;
+	font-size: calc(2vw);
 }
 
-@media (max-width: 1600px) {
+@media (min-width: 480px) {
 	html {
 		font-size: calc(1vw);
 		/* font-size: 16; */
+	}
+}
+
+@media (min-width: 1600px) {
+	html {
+		font-size: 16px;
+	}
+}
+
+.scroll-container {
+	width: 100%;
+	padding-left: 0%;
+	padding-right: 0%;
+}
+
+@media (min-width: 480px) {
+	.scroll-container {
+		width: 100%;
+		padding-left: 20%;
+		padding-right: 20%;
 	}
 }
 

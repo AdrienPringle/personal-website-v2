@@ -9,12 +9,19 @@ import Background from "../components/background";
 import ScrollContainer from "../components/scrollContainer";
 
 import styles from "../styles/Home.module.css";
+import { useState, useEffect } from "react";
 
-const stateMap: { [state in Pages]: (x: number, y: number) => boolean } = {
-	"/": (x, y) => Math.abs(x - 0.5) - 1 * y > 0.15,
-	resume: (x, y) => x < 0.17 || x > 0.83,
-	projects: (x, y) => x < 0.17 || x > 0.83,
-	contact: (x, y) => x < 0.17 || x > 0.83 || y + (x - 0.5) * (x - 0.5) > 0.75,
+const stateMap: {
+	[state in Pages]: (x: number, y: number, isMobile: boolean) => boolean;
+} = {
+	"/": (x, y, isMobile) =>
+		isMobile ? y < 0.15 || y > 0.7 : Math.abs(x - 0.5) - 0.4 * y > 0.15,
+	resume: (x, y, isMobile) => (isMobile ? false : x < 0.17 || x > 0.83),
+	projects: (x, y, isMobile) => (isMobile ? false : x < 0.17 || x > 0.83),
+	contact: (x, y, isMobile) =>
+		isMobile
+			? y > 0.7
+			: x < 0.17 || x > 0.83 || y + (x - 0.5) * (x - 0.5) > 0.75,
 };
 
 const buttonMap: {
@@ -29,8 +36,21 @@ const getPage = (pathname: string) => {
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
+	const [windowWidth, setWindowWidth] = useState(480);
+	const [windowHeight, setWindowHeight] = useState(480);
 	const router = useRouter();
 	const page = getPage(router.pathname);
+
+	useEffect(() => {
+		function updateSize() {
+			setWindowWidth(window.innerWidth);
+			setWindowHeight(window.innerHeight);
+		}
+		window.addEventListener("resize", updateSize);
+		updateSize();
+		return () => window.removeEventListener("resize", updateSize);
+	}, []);
+
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -51,8 +71,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 			<main className={styles.main}>
 				<ScrollContainer visible={page !== "/"} {...buttonMap[page]}>
-					<Background<Pages> stateMap={stateMap} state={page} />
-					<Header page={page} />
+					<Background<Pages>
+						stateMap={stateMap}
+						state={page}
+						windowWidth={windowWidth}
+						windowHeight={windowHeight}
+					/>
+					<Header page={page} windowWidth={windowWidth} />
 					<Component {...pageProps} />
 				</ScrollContainer>
 			</main>

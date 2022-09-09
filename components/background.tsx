@@ -93,39 +93,47 @@ interface Shape<State extends string> {
 }
 
 interface BackgroundProps<State extends string> {
-	stateMap: { [state in State]: (x: number, y: number) => boolean };
+	stateMap: {
+		[state in State]: (x: number, y: number, isMobile: boolean) => boolean;
+	};
 	state: State;
+	windowWidth: number;
+	windowHeight: number;
 }
 
 const Background = <State extends string>({
 	stateMap,
 	state,
+	windowWidth,
+	windowHeight,
 }: BackgroundProps<State>) => {
 	const [shapes, setShapes] = useState<Shape<State>[]>([]);
 	const [svgScale, setScale] = useState(1);
-	const [svgWitdh, setWidth] = useState(0);
-	const [svgHeight, setHeight] = useState(0);
+	// const [svgWitdh, setWidth] = useState(0);
+	// const [svgHeight, setHeight] = useState(0);
+
+	const isMobile = windowWidth <= 480;
 
 	useEffect(() => {
-		const width = document.body.clientWidth;
-		const height = document.body.clientHeight;
-		setWidth(width);
-		setHeight(height);
+		// const width = document.body.clientWidth;
+		// const height = window.innerHeight;
+		// setWidth(width);
+		// setHeight(height);
 
-		const scale = width / 1680;
-		setScale(width / 1680);
+		const scale = isMobile ? windowWidth / 600 : windowWidth / 1680;
+		setScale(scale);
 
 		const distance = 130 * scale;
 		const vertDist = 0.707 * distance;
 
-		const numX = Math.ceil(width / distance) + 1;
-		const numY = Math.ceil(height / vertDist) + 1;
+		const numX = Math.ceil(windowWidth / distance) + 1;
+		const numY = Math.ceil(windowHeight / vertDist) + 1;
 
 		const initShapes: Shape<State>[] = [];
 
 		const stateMapArr = Object.entries(stateMap) as [
 			State,
-			(x: number, y: number) => boolean
+			(x: number, y: number, isMobile: boolean) => boolean
 		][];
 
 		for (let i = 0; i < numY; i++) {
@@ -141,7 +149,7 @@ const Background = <State extends string>({
 				const visibilityMap = Object.fromEntries(
 					stateMapArr.map(([key, func]) => [
 						key,
-						func((x + 15) / width, y / height),
+						func((x + 15) / windowWidth, y / windowHeight, isMobile),
 					])
 				) as { [state in State]: boolean };
 
@@ -163,7 +171,7 @@ const Background = <State extends string>({
 		}
 
 		setShapes(initShapes);
-	}, []);
+	}, [windowWidth, windowHeight]);
 
 	const getPathsFromShape = (shape: Shape<State>) => {
 		const Element = components[shape.type];
@@ -194,9 +202,9 @@ const Background = <State extends string>({
 	};
 	return (
 		<svg
-			width={svgWitdh}
-			height={svgHeight}
-			viewBox={`0 0 ${svgWitdh} ${svgHeight}`}
+			width={windowWidth}
+			height={windowHeight}
+			viewBox={`0 0 ${windowWidth} ${windowHeight}`}
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 			style={{

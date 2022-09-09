@@ -9,6 +9,7 @@ const cardContainerStyle: CSSProperties = {
 	gridTemplateColumns: "repeat(auto-fit, 18rem)",
 	justifyContent: "center",
 	justifyItems: "center",
+	marginBottom: "4rem",
 };
 
 const Projects = () => {

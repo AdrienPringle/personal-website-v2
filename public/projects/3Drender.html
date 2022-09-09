@@ -1,0 +1,48 @@
+<body>
+    <div id="container">
+        <h1>3D Renderer</h1>
+        <img width=420 height=320 src="https://i.imgur.com/MPqpvpi.gif"/>
+        <div>
+            <p>
+                The above animation was created using my custom made 3D render, built using Java (because its all I knew at the time).
+            </p>
+            <p>
+                The idea behind this project was to build an entire 3D engine without the help of any math or 3D graphics libraries.
+                I can't remember if this was out of desire to learn, or because I didn't know of the existance of these libraries.
+                Perhaps an engine was a bit too optimistic given I'd never worked with any 3D graphics in my life at the time. At the
+                very least, I learned a lot throughout this project.
+            </p>
+            <p>
+                I first became interested in this topic in highschool, so there was a lot to learn. By the end, I had self taught almost all the
+                basics of linear algebra and projection.
+            </p>
+
+        </div>
+        
+    </div>
+</body>
+<style>
+    #container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+    }
+    p {
+        max-width: 800;
+        font-size: 18px;
+    }
+    img {
+        object-fit: none;
+        object-position: -23px -23px;
+        border-radius: 7px;
+      
+        width: 681px;
+        height: 501px;
+        transform: scale(0.7);
+
+        box-shadow: 0 2px 10px hsla(120,100%,0%,0.3);
+        text-align: center;
+      }
+</style>

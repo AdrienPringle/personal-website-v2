@@ -1,0 +1,310 @@
+<html>
+<div id='app'>
+  <canvas id="canvas" width="800" height="800" style="border:1px solid gray"></canvas>
+  <div id=inputs>
+    <div id='text'>
+      <h1> Gravity Model </h1>
+      <p>
+        I created this simulation a long time ago for a math project. The simulation incrementally calculates the acceleration of every body independantly, and displaces them over a small ∆t. The results are alright, but as you can imagine, a combination of my sloppy coding and using JS means that no accurate simlulation could be run in a reasonable amount of time.
+      </p>
+      <p>
+        These initial inputs are configured for a geosynchronous orbit - where a satellite orbits the Earth in exactly the time it for the Earth to rotate. Go ahead and click Start Simulation!
+      </p>
+    </div>
+    <input id= 'deltaT'type= 'number' value='8.64'></input> ∆t (s) <br/> 
+    <input id='time' type= 'number' value='86400'></input> Simulation Time (s) <br/>
+    <input id='speed' type= 'number' value='5'></input> Iderations / Render (0 to calculate instantly - use at own risk) <br/>
+    <input id= 'gConst'type= 'number'value='6.67408e-11'></input> Gravitational Constant <br /> <br/>
+    <div id=body-edit>
+      <div id='body0' style="border:1px solid gray;display: inline-block" class='body'>
+        <input id= 'xpos0'type= 'number' value='0'></input> xpos <input id= 'ypos0'type= 'number' value='42164000'></input> ypos
+        <br />
+        <input id= 'xvel0'type= 'number' value='-3.075e3'></input> xvel  <input id= 'yvel0'type= 'number' value='0'></input> yvel
+        <br />
+        <input id= 'pMass0'type= 'number'value='0'></input> M <input type="checkbox" id="isAffected0" checked> is affected by gravity?
+      </div>
+      <div id='body1' style="border:1px solid gray;display: inline-block" class='body'>
+        <input id= 'xpos1'type= 'number' value='0'></input> xpos <input id= 'ypos1'type= 'number' value='0'></input> ypos
+        <br />
+        <input id= 'xvel1'type= 'number' value='0'></input> xvel  <input id= 'yvel1'type= 'number' value='0'></input> yvel
+        <br />
+        <input id= 'pMass1'type= 'number'value='5.9722e24'></input> M <input type="checkbox" id="isAffected1" checked> is affected by gravity?
+      </div>
+      <div id='add-remove'>
+        <button id='add' onclick="addBody()">Add Body</button>
+        <button id='clear' onclick="clearBodies()">Clear Bodies</button>
+      </div>
+    </div>
+    <br /><button id='start' onclick="beginSimulation()">Start Simulation</button>
+    <div id='spacer'></div>
+  </div>
+  
+
+</div>
+<script>
+  let width = 800;
+  let height = 800;
+  let color = 0;
+
+  let deltaT;
+  let time;
+  let g;
+  let fps = 60;
+  let speed;
+
+  let bodyCount = 2;
+  let bodies = new Array();
+
+  let maxX;
+  let minX;
+  let maxY;
+  let minY;
+
+  let id;
+  let iderations;
+
+  let canvas;
+  let canvasContext;
+
+  function Body(initP, initV, mass, isAffected){
+    this.positions = new Array();
+    this.velocity = new Array();
+    this.mass = mass;
+    this.isAffected = isAffected;
+
+    this.positions.push(initP);
+    this.velocity.push(initV);
+  }
+
+
+  window.onload = function(){
+  	canvas = document.getElementById('canvas');
+  	canvasContext = canvas.getContext('2d');
+  }
+
+  function addBody(){
+    let e = document.getElementById("body"+(bodyCount-1)).cloneNode(true);
+    e.id = 'body'+bodyCount;
+    let c = e.getElementsByTagName("INPUT");
+    for(let i = 0; i < c.length; i++){
+      c[i].id = c[i].id.slice(0,-1)+bodyCount;
+    }
+    document.getElementById('body-edit').insertBefore(e, document.getElementById('add-remove'));
+    bodyCount++;
+    /*
+    let m = parseFloat(document.getElementById('pMass').value);
+    let initialP = {
+      x:parseFloat(document.getElementById('xpos').value),
+      y:parseFloat(document.getElementById('ypos').value),
+    }
+    let initialV = {
+      x:parseFloat(document.getElementById('xvel').value),
+      y:parseFloat(document.getElementById('yvel').value),
+    }
+    bodies.push(new Body(initialP, initialV, m))*/
+  }
+  function clearBodies(){
+    clearInterval(id);
+    for(let i = bodyCount - 1; i >= 1; i--){
+      let e = document.getElementById("body"+i);
+      e.parentNode.removeChild(e);
+    }
+    bodyCount = 1;
+    bodies = new Array();
+  }
+
+  function beginSimulation(){
+    clearInterval(id);
+    maxX = 0; maxY = 0; minX = 0; minY = 0;
+
+    extractBodies();
+
+    deltaT = parseFloat(document.getElementById('deltaT').value);
+    time = parseFloat(document.getElementById('time').value);
+    g = parseFloat(document.getElementById('gConst').value);
+    speed = parseFloat(document.getElementById('speed').value);
+
+    //bodies.push(new Body({x:0,y:0},{x:0,y:0},5.9722e24));
+    if(speed == 0){
+      calculatePathsFirst();
+    }else{
+      iderations = 0;
+      id = setInterval(handleIderation, 1000/fps);
+    }
+
+  }
+  function extractBodies(){
+    bodies = new Array()
+    for(let i = 0; i < bodyCount; i++){
+      let m = parseFloat(document.getElementById('pMass'+i).value);
+      let initialP = {
+        x:parseFloat(document.getElementById('xpos'+i).value),
+        y:parseFloat(document.getElementById('ypos'+i).value),
+      }
+      let initialV = {
+        x:parseFloat(document.getElementById('xvel'+i).value),
+        y:parseFloat(document.getElementById('yvel'+i).value),
+      }
+      let isAffected = document.getElementById('isAffected'+i).checked;
+      bodies.push(new Body(initialP, initialV, m, isAffected))
+    }
+  }
+  function handleIderation(){
+    for(let i = 0; i < speed; i++){
+      calculateNewPositions(iderations);
+      iderations++;
+    }
+    clearCanvas();
+    for(let cB = 0; cB < bodies.length; cB++){
+      render(cB);
+    }
+    if(iderations > Math.ceil(time/deltaT)){
+      clearInterval(id);
+    }
+  }
+  function calculatePathsFirst(){
+    for(let i = 0; i < Math.ceil(time/deltaT); i++){
+      calculateNewPositions(i);
+    }
+    for(let cB = 0; cB < bodies.length; cB++){
+      render(cB);
+    }
+
+  }
+
+  function calculateNewPositions(i){
+    for(let cB = 0; cB < bodies.length; cB++){
+      let acceleration = {
+        x: 0,
+        y: 0,
+      }
+      if(bodies[cB].isAffected){
+        for(let j = 0; j < bodies.length; j++){
+          if(j != cB){
+
+            let distX = bodies[cB].positions[i].x - bodies[j].positions[i].x;
+            let distY = bodies[cB].positions[i].y - bodies[j].positions[i].y;
+
+            let magA = g*bodies[j].mass/(distX*distX + distY*distY);
+            let argA = Math.atan2(-distY, -distX);
+
+            acceleration.x += magA * Math.cos(argA);
+            acceleration.y += magA * Math.sin(argA);
+          }
+        }
+      }
+
+      let newV = {
+        x: bodies[cB].velocity[i].x + acceleration.x*deltaT,
+        y: bodies[cB].velocity[i].y + acceleration.y*deltaT,
+      }
+      bodies[cB].velocity.push(newV);
+
+      let s = {
+        x: bodies[cB].velocity[i].x*deltaT + 0.5*acceleration.x*deltaT*deltaT,
+        y: bodies[cB].velocity[i].y*deltaT + 0.5*acceleration.y*deltaT*deltaT,
+      }
+      bodies[cB].positions.push({
+        x: bodies[cB].positions[i].x + s.x,
+        y: bodies[cB].positions[i].y + s.y,
+      })
+
+      if(bodies[cB].positions[i+1].x>maxX){maxX = bodies[cB].positions[i+1].x}
+      if(bodies[cB].positions[i+1].x<minX){minX = bodies[cB].positions[i+1].x}
+      if(bodies[cB].positions[i+1].y>maxY){maxY = bodies[cB].positions[i+1].y}
+      if(bodies[cB].positions[i+1].y<minY){minY = bodies[cB].positions[i+1].y}
+    }
+  }
+  function clearCanvas(){
+    canvasContext.fillStyle = 'rgb(0,0,0)';
+    canvasContext.fillRect(0,0,800,800);
+  }
+
+  function render(cB){
+
+    let time = Date.now();
+
+    color = cB*45;
+    canvasContext.fillStyle = "hsl("+color+",100%, 50%)";
+
+    let max = Math.max(Math.abs(minX), Math.abs(maxX), Math.abs(minY), Math.abs(maxY))
+    let x = Math.round(map(0, max, -max, 800, 0));
+    let y = Math.round(map(0, max, -max, 0, 800));
+
+    canvasContext.fillRect(x-2, y-2, 4, 4);
+
+    for(let i = 0; i < bodies[cB].positions.length; i++){
+      canvasContext.fillStyle = "hsl("+color+",100%, 50%)";
+      x = map(bodies[cB].positions[i].x, max, -max, 800, 0);
+      y = map(bodies[cB].positions[i].y, max, -max, 0, 800);
+      canvasContext.fillRect(x, y, 2, 2);
+    }
+    //console.log(Date.now()-time);
+  }
+
+  function map(n, n1, n2, r1, r2){
+  	var p = (n-n1)/(n2-n1);
+  	return p*(r2-r1)+r1;
+  }
+  /*
+  canvasContext.fillStyle = drawColor;
+	canvasContext.fillRect(leftX, topY, width, height);
+  */
+</script>
+
+<style>
+  * {
+    font-family: "Roboto", sans-serif;
+    color: #bbb;
+  }
+  body {
+    background : black;
+  }
+  #app {
+    display: flex;
+    align-items: flex-start;
+  }
+  #inputs {
+    padding: 10px;
+    max-height: 800px;
+    overflow: scroll;
+  }
+  #text {
+    font-size: 24px;
+  }
+  #spacer{
+    height: 50vh;
+  }
+  #start{
+    background: #99f7b1;
+    color: black;
+  }
+  .body {
+   margin-right: 5px;
+   margin-bottom: 10px;
+   border-radius: 5px;
+   display: grid;
+   padding: 5px;
+ }
+ input {
+   margin: 5px;
+   margin-right: 0px;
+ }
+ h1 {
+   margin-top: 0;
+ }
+ input[type='number'] {
+    background : #444;
+    border-radius: 3px;
+    border: 1px solid grey;
+    padding: 3px;
+ }
+ button {
+    padding: 5px;
+    margin-left: 5px;
+    background: #222;
+    border-radius: 3px;
+    border: 1px solid grey;
+ }
+</style>
+</html>

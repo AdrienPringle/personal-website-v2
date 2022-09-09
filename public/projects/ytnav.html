@@ -1,0 +1,179 @@
+<html>
+	<body>
+		<div id="content">
+			<div id="intro" class="info">
+				<h1>Low Effort Youtube Navigation</h1>
+				<div>
+					<figure>
+						<img
+							src="./media/kermit.jpg"
+							alt="artist representation of me watching youtube"
+						/>
+						<figcaption>
+							<u>Pictured:</u> artist representation of me watching youtube
+						</figcaption>
+					</figure>
+					<p>
+						<u>Problem:</u>
+						The more potato-like I can become, the more I enjoy watching
+						Youtube. However, every so oftem I am violently reminded by the fact
+						that I am not, in fact, one with my bed. Periodically finding new 10
+						minute distractions subjects me to awkward calorie intensive arm
+						movements. Through this project, I aim to eliminate once and for all
+						this cruel and unusual punishment.
+					</p>
+					<p>
+						<u>Solution:</u>
+						Rather than require sweeping arm gestures, a single handed keyboard
+						approach is far less physically demanding. This can be fairly easily
+						implemented with a browser extension. Even better would be to never
+						have to move my hand in the first place. This is where a hardware
+						approach shines. This project additionally repurposes the
+						masterfully ergonomic Wii Nunchuk for bedtime comfort.
+					</p>
+				</div>
+			</div>
+
+			<div id="parts">
+				<div id="software" class="info">
+					<h2>Chrome Extension</h2>
+					<u>Default Key Bindings:</u>
+					<ul>
+						<li><code>WASD ⌥</code> - navigate video cards</li>
+						<li><code>QE ⌥</code> - open sidebar (home/subscriptions)</li>
+						<li><code>⏎</code> - select item</li>
+					</ul>
+					<p>
+						This is the part that would probably benefit you most. If literally
+						one person expresses interest in this, I'll cough up the $5 needed
+						to publish it. Otherwise, you can run it yourself or see the inner
+						workings using the
+						<a
+							href="https://github.com/AdrienPringle/youtube-keyboard-navigation"
+							><b>source code on Github</b></a
+						>.
+					</p>
+					<video autoplay muted loop>
+						<source
+							src="https://firebasestorage.googleapis.com/v0/b/personal-website-15cf0.appspot.com/o/keyboardext.webm?alt=media&token=c5ffbb09-efc5-4024-8689-edcfb3e23cad"
+							type="video/webm"
+						/>
+					</video>
+				</div>
+				<div id="hardware" class="info">
+					<h2>Nunchuk Interface</h2>
+					<p>
+						Hardware is super easy when you embrace your inner script kiddie and
+						let smarter people than you do all the hard work. In particular, I
+						stole most of my code from these sources:
+					</p>
+					<ul>
+						<li>
+							-
+							<a
+								href="https://www.hackster.io/millerman4487/arduino-wii-nunchuck-full-functionality-3c40cd"
+								>How to Read Nunchuk inputs using an Arduino</a
+							>
+						</li>
+						<li>
+							-
+							<a
+								href="https://techtotinker.blogspot.com/2020/07/tutorial-how-to-use-arduino-uno-as-hid.html?m=1"
+								>How to make an Arduino Uno behave like an HID Keyboard</a
+							>
+						</li>
+						<li>
+							-
+							<a
+								href="https://gist.github.com/MightyPork/6da26e382a7ad91b5496ee55fdc73db2"
+								>Header file for HID keycode definitions</a
+							>
+						</li>
+					</ul>
+					<u>Controls:</u>
+					<ul>
+						<li><code>↔︎</code> - skip ±10s</li>
+						<li><code>↕︎</code> - change video speed</li>
+						<li><code>↔︎↕︎ Z</code> - navigate video cards</li>
+						<li><code>Z</code> - open sidebar</li>
+						<li><code>C</code> - select/pause</li>
+					</ul>
+					<figure>
+						<img src="./media/nunchuck.jpg" alt="nunchuk with arduino" />
+						<figcaption>Technically speaking, this is a keyboard</figcaption>
+					</figure>
+					<br />
+					<p>
+						For now, its super jank cuz I only have a full sized board, and no
+						access to the Nunchuk innards. Unfortunately, inputs have to be
+						detected through polling rather than interrupts. All of this could
+						be fixed if I had access to more tools and a smaller board. If I get
+						the proper stuff, ill definitely improve this.
+					</p>
+				</div>
+			</div>
+		</div>
+	</body>
+	<style>
+		html {
+			font-size: 1.25em;
+		}
+		#content {
+			margin: auto;
+			margin-bottom: 25vh;
+			width: min(80%, 60rem);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		#parts {
+			display: grid;
+			grid-gap: 5rem;
+			grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+		}
+		#intro {
+			width: min(60rem, 100%);
+		}
+		#intro figure {
+			float: right;
+			margin-left: 1rem;
+		}
+		.info {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		code {
+			background-color: #444;
+			color: white;
+			display: inline-block;
+			width: 5.5rem;
+			padding-right: 1rem;
+			text-align: right;
+			border-radius: 0.2rem;
+			font-size: 1.5rem;
+		}
+		figure {
+			margin: 0;
+			width: min(100%, 20rem);
+		}
+		img,
+		video {
+			width: 100%;
+		}
+		ul,
+		li {
+			list-style-type: none;
+			padding: 0.05rem;
+		}
+		p {
+			text-align: justify;
+			margin-top: 0;
+		}
+		figcaption {
+			font-size: 0.8rem;
+			font-style: italic;
+		}
+	</style>
+</html>

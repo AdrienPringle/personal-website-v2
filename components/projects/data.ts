@@ -78,7 +78,12 @@ const data: ProjectData[] = [
 
 		description:
 			"A Chrome extension for intuitive keyboard navigation, and an even more intuitive Nunchuk control schemme.",
-		links: [],
+		links: [
+			{
+				text: "Website",
+				url: "https://apringle.dev/projects/ytnav.html",
+			},
+		],
 	},
 	{
 		title: "Streaminar",
@@ -136,21 +141,36 @@ const data: ProjectData[] = [
 
 		description:
 			"A quick prototype of a 2 player Conway's Game of Life inspired game.",
-		links: [],
+		links: [
+			{
+				text: "Website",
+				url: "https://apringle.dev/projects/board.html",
+			},
+		],
 	},
 	{
 		title: "Gravity Model",
 		img: gravity,
 
 		description: "A step by step simulation of multiple gravitational bodies.",
-		links: [],
+		links: [
+			{
+				text: "Website",
+				url: "https://apringle.dev/projects/gravity model.html",
+			},
+		],
 	},
 	{
 		title: "3D Renderer",
 		img: threeD,
 
 		description: "A rudimentary 3D renderer made without libraries.",
-		links: [],
+		links: [
+			{
+				text: "Website",
+				url: "https://apringle.dev/projects/3Drender.html",
+			},
+		],
 	},
 ];
 

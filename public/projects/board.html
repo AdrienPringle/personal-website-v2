@@ -1,0 +1,31 @@
+<body>
+	<h4>Rules:</h4>
+
+	<ul>
+		<li>0, 1: Tile dies</li>
+		<li>2, 3, 4: Tile survives</li>
+		<li>5, 6, 7, 8: Tile dies</li>
+	</ul>
+
+	<ul>
+		<li>Don't let your opponent see the tiles you place.</li>
+		<li>Death is calculated when both players have placed their pieces</li>
+		<li>
+			If both players place a tile in the same location, the tiles are used but
+			the space remains blank
+		</li>
+		<li>
+			Each player starts with 6 tiles to place, and can place as many as they
+			want each turn
+		</li>
+		<li>Each player gains 2 tiles/cycle, up to a max of 6</li>
+		<li>Winner is the last one with living tiles</li>
+	</ul>
+</body>
+<p id="player">player 1s turn</p>
+<canvas id="canvas" width="500" height="500" style="border: 1px solid gray">
+</canvas>
+<br />
+<button id="turn">Next Turn</button><br /><br />
+<button id="reset">Reset Board</button><br />
+<script src="boardscript.js"></script>

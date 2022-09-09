@@ -60,7 +60,7 @@ const Card = ({ data }: CardProps) => {
 		<div style={containerStyle}>
 			<div style={imageContainerStyle}>
 				<div style={imageSizeContainerStyle}>
-					<Image layout="fill" src={data.imgUrl} alt={data.title} />
+					<Image layout="fill" src={data.img} alt={data.title} />
 				</div>
 			</div>
 

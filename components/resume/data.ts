@@ -10,6 +10,11 @@ const data: JobData[] = [
 		title: "Maybe your company?",
 	},
 	{
+		date: "2019-\nPresent",
+		title: "University of Waterloo - B.A.Sc in Computer Engineering",
+		content: "",
+	},
+	{
 		date: "Winter\n'22",
 		title: "Sony Interactive Entertainment - DevOps Software Developer",
 		content:

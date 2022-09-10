@@ -14,6 +14,8 @@ import soundboard from "./images/soundboard.png";
 import streaminar from "./images/streaminar.jpg";
 import tilegame from "./images/tilegame.jpg";
 import unfabled from "./images/unfabled.jpg";
+import hungryhungryfrogge from "./images/hungryhungryfrogge.png";
+import warpduels from "./images/warpduels.png";
 import ytnav from "./images/ytnav.jpg";
 
 export interface ProjectData {
@@ -37,6 +39,22 @@ const data: ProjectData[] = [
 			{
 				text: "Github",
 				url: "https://github.com/Kwiper/Unfabled",
+			},
+		],
+	},
+	{
+		title: "Hungry Hungry Frogge",
+		img: hungryhungryfrogge,
+		description:
+			"Hungre Hungre Frogge is a game about feeding blobs to frogs. Frogs can't push blobs, so you must build walls to herd the food to their mouths. Made in 48 hours for Hack the North 2021.",
+		links: [
+			{
+				text: "Devpost",
+				url: "https://devpost.com/software/hungre-hungre-frogge",
+			},
+			{
+				text: "Github",
+				url: "https://github.com/AdrienPringle/HTN-team-brain-damage",
 			},
 		],
 	},
@@ -130,7 +148,7 @@ const data: ProjectData[] = [
 		description: "An ongoing attempt to detect strings from chords.",
 		links: [
 			{
-				text: "Gitub",
+				text: "Github",
 				url: "https://github.com/AdrienPringle/guitar-string-detector#readme",
 			},
 		],
@@ -169,6 +187,19 @@ const data: ProjectData[] = [
 			{
 				text: "Website",
 				url: "https://apringle.dev/projects/3Drender.html",
+			},
+		],
+	},
+	{
+		title: "Warp Duels",
+		img: warpduels,
+
+		description:
+			"A quick paced local 1v1 arcade battles with lasers and spaceships.",
+		links: [
+			{
+				text: "itch.io",
+				url: "https://chip2222.itch.io/warp-duels",
 			},
 		],
 	},

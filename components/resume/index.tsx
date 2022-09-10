@@ -14,7 +14,6 @@ const dateStyle: CSSProperties = {
 	textAlign: "right",
 
 	fontFamily: '"Josefin Sans", sans-serif',
-	fontSize: "4rem",
 	color: "#b0b0b0",
 
 	margin: "2rem 3rem 4rem 0",
@@ -66,7 +65,11 @@ const Resume = () => {
 			{data.map(({ date, title, content }, i) => {
 				return (
 					<>
-						<div style={dateStyle} key={`resume-date-${i}`}>
+						<div
+							style={dateStyle}
+							key={`resume-date-${i}`}
+							className={"resume-date"}
+						>
 							{date}
 						</div>
 						<div

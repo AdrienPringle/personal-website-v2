@@ -21,7 +21,7 @@ const stateMainLeftMobile: DropState = {
 	tailPosx: 0,
 	tailPosy: -5,
 	posx: -12,
-	posy: 20,
+	posy: 15,
 	offset: 80,
 	isActive: true,
 };
@@ -39,7 +39,7 @@ const stateMainMiddleMobile: DropState = {
 	tailPosx: 0,
 	tailPosy: -5,
 	posx: 0,
-	posy: 30,
+	posy: 25,
 	offset: 80,
 	isActive: true,
 };
@@ -57,7 +57,7 @@ const stateMainRightMobile: DropState = {
 	tailPosx: 0,
 	tailPosy: -5,
 	posx: 12,
-	posy: 20,
+	posy: 15,
 	offset: 80,
 	isActive: true,
 };
@@ -65,7 +65,7 @@ const stateMainRightMobile: DropState = {
 const statePageLeft: DropState = {
 	tailPosx: 0,
 	tailPosy: -4,
-	posx: -32,
+	posx: -28,
 	posy: -2,
 	offset: 80,
 	isActive: true,
@@ -73,9 +73,9 @@ const statePageLeft: DropState = {
 
 const statePageLeftMobile: DropState = {
 	tailPosx: -30,
-	tailPosy: -3,
-	posx: -18,
-	posy: -2,
+	tailPosy: -4,
+	posx: -15,
+	posy: -3,
 	offset: 80,
 	isActive: true,
 };
@@ -101,7 +101,7 @@ const statePageMiddleMobile: DropState = {
 const statePageRight: DropState = {
 	tailPosx: 0,
 	tailPosy: -4,
-	posx: 32,
+	posx: 28,
 	posy: -2,
 	offset: 80,
 	isActive: true,
@@ -109,9 +109,9 @@ const statePageRight: DropState = {
 
 const statePageRightMobile: DropState = {
 	tailPosx: 30,
-	tailPosy: -3,
-	posx: 18,
-	posy: -2,
+	tailPosy: -4,
+	posx: 15,
+	posy: -3,
 	offset: 80,
 	isActive: true,
 };
@@ -205,15 +205,17 @@ const Header = ({ page, windowWidth }: HeaderProps) => {
 
 	const isMain = page === "/";
 
-	const isMobile = windowWidth <= 480 ? 1 : 0;
+	const isMobile = windowWidth < 480 ? 1 : 0;
 
 	const nameScale = isMain ? 1 : 0.3;
-	const subScale = isMain ? 1 : 2.5;
+	const subScale = isMain ? 1 : isMobile ? 2 : 2.5;
 	return (
 		<div
 			style={{
 				...containerStyle,
-				transform: `translateY(${isMain ? (isMobile ? 28 : 10) : 0}em)`,
+				transform: `translateY(${
+					isMain ? (isMobile ? "calc(40vh - 15em)" : "10em") : "0em"
+				})`,
 			}}
 		>
 			<div
@@ -243,16 +245,16 @@ const Header = ({ page, windowWidth }: HeaderProps) => {
 					onClick={() => transition("resume")}
 				/>
 				<AnimatedDrop
-					content="projects"
-					isAnimating={isAnimating}
-					{...stateMap[page].projects[isMobile]}
-					onClick={() => transition("projects")}
-				/>
-				<AnimatedDrop
 					content="contact"
 					isAnimating={isAnimating}
 					{...stateMap[page].contact[isMobile]}
 					onClick={() => transition("contact")}
+				/>
+				<AnimatedDrop
+					content="projects"
+					isAnimating={isAnimating}
+					{...stateMap[page].projects[isMobile]}
+					onClick={() => transition("projects")}
 				/>
 			</div>
 		</div>

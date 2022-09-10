@@ -15,12 +15,12 @@ const stateMap: {
 	[state in Pages]: (x: number, y: number, isMobile: boolean) => boolean;
 } = {
 	"/": (x, y, isMobile) =>
-		isMobile ? y < 0.15 || y > 0.7 : Math.abs(x - 0.5) - 0.4 * y > 0.15,
+		isMobile ? y < 0.15 || y > 0.8 : Math.abs(x - 0.5) - 0.4 * y > 0.15,
 	resume: (x, y, isMobile) => (isMobile ? false : x < 0.17 || x > 0.83),
 	projects: (x, y, isMobile) => (isMobile ? false : x < 0.17 || x > 0.83),
 	contact: (x, y, isMobile) =>
 		isMobile
-			? y > 0.7
+			? y > 0.6
 			: x < 0.17 || x > 0.83 || y + (x - 0.5) * (x - 0.5) > 0.75,
 };
 

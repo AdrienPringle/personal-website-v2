@@ -7,7 +7,7 @@ const contactsContainerStyle: CSSProperties = {
 	width: "100%",
 	display: "flex",
 	justifyContent: "center",
-	alignItems: "center",
+	alignItems: "top",
 };
 const contactsTableStyle: CSSProperties = {
 	display: "grid",
@@ -16,7 +16,6 @@ const contactsTableStyle: CSSProperties = {
 	justifyContent: "center",
 	alignItems: "center",
 
-	marginTop: "max(2rem, calc(28vh - 10rem))",
 	marginBottom: "1rem",
 };
 const imageContainerStyle: CSSProperties = {
@@ -32,7 +31,7 @@ const Contact = () => {
 	return (
 		<div>
 			<div style={contactsContainerStyle}>
-				<div style={contactsTableStyle}>
+				<div style={contactsTableStyle} className="contacts-table">
 					{data.map(({ image, text, url }) => {
 						const IconSvg = image;
 						return (

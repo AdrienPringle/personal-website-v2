@@ -112,7 +112,7 @@ const Background = <State extends string>({
 	// const [svgWitdh, setWidth] = useState(0);
 	// const [svgHeight, setHeight] = useState(0);
 
-	const isMobile = windowWidth <= 480;
+	const isMobile = windowWidth < 480;
 
 	useEffect(() => {
 		// const width = document.body.clientWidth;
@@ -153,7 +153,7 @@ const Background = <State extends string>({
 					])
 				) as { [state in State]: boolean };
 
-				const colorNum = Math.floor(Math.random() * 16);
+				const colorNum = Math.floor(Math.random() * 8);
 				const color =
 					colorNum === 0 ? "red" : colorNum === 1 ? "blue" : "default";
 
@@ -180,7 +180,7 @@ const Background = <State extends string>({
 		const props = {
 			fill: "white",
 			// stroke: `#1F1F1F${shape.visibilityMap[state] ? "ff" : "00"}`,
-			strokeWidth: "0.06rem",
+			strokeWidth: "0.1rem",
 			className: `
                 shape
                 shape-type-${shape.type}

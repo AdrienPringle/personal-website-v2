@@ -5,7 +5,7 @@ interface Props {
 	visible: boolean;
 	children?: React.ReactNode;
 	buttonText?: string;
-	onButtonClick?: () => void;
+	url?: string;
 }
 
 const scrollMaskStyle: CSSProperties = {
@@ -39,33 +39,27 @@ const buttonStyle: CSSProperties = {
 	overflow: "hidden",
 
 	position: "relative",
+	textDecoration: "none",
+	color: "#000000",
 };
 
 const buttonBackgroundStyle: CSSProperties = {
 	position: "absolute",
-	top: 0,
-	left: 0,
 	zIndex: 1,
-	width: "20rem",
-	height: "10rem",
 };
 
 const ScrollContainer: React.FC<Props> = ({
 	visible,
 	children,
 	buttonText,
-	onButtonClick,
+	url,
 }) => {
 	return (
 		<div className="scroll-container">
 			{visible && (
 				<div style={scrollMaskStyle}>
 					{buttonText && (
-						<button
-							className="divider-button"
-							style={buttonStyle}
-							onClick={onButtonClick}
-						>
+						<a className="divider-button" style={buttonStyle} href={url}>
 							<div style={{ zIndex: 2, position: "relative" }}>
 								{" "}
 								{buttonText}
@@ -75,7 +69,7 @@ const ScrollContainer: React.FC<Props> = ({
 								style={buttonBackgroundStyle}
 								className="divider-button-background"
 							></div>
-						</button>
+						</a>
 					)}
 				</div>
 			)}

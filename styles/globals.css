@@ -126,49 +126,45 @@ html {
 	stroke: #58a4b000;
 }
 
-@keyframes gradient-move {
-	0% {
-		/* no idea why this works */
-		transform: translate(-2.9rem, -1rem);
-	}
-	100% {
-		transform: translate(0rem, -1rem);
-	}
+.divider-button-background {
+	--b: 0.06rem; /* thickness of the border */
+	--e: 0.1rem;
+	--c: black; /* color of the border */
+	--w: 0.5rem; /* width of border */
+	--r: 0.4rem; /* radius */
+
+	inset: -0.1rem;
+
+	padding: var(1rem); /* space for the border */
+	pointer-events: none;
+
+	transition: inset 0.1s;
 }
 
-.divider-button:hover .divider-button-background {
-	/* background: repeating-linear-gradient(
-		45deg,
-		#ffffff,
-		#ffffff 1rem,
-		#58a4b0ff 1rem,
-		#58a4b0ff 2rem,
-		#ffffff 2rem
-	); */
-
-	background: repeating-linear-gradient(
-		45deg,
-		#ffffff,
-		#58a4b0ff 1rem,
-		#ffffff 2rem
-	);
-
-	animation: gradient-move 1s linear infinite;
+.divider-button-background::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--c, red);
+	padding: var(--b);
+	border-radius: var(--r);
+	-webkit-mask: linear-gradient(0deg, #000 calc(2 * var(--e)), #0000 0) 50%
+			var(--e) / calc(100% - 2 * var(--w)) 100% repeat-y,
+		linear-gradient(-90deg, #000 calc(2 * var(--e)), #0000 0) var(--e) 50%/100%
+			calc(100% - 2 * var(--w)) repeat-x,
+		linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	-webkit-mask-composite: destination-out;
+	mask-composite: exclude;
 }
-.divider-button:active .divider-button-background {
-	/* background: repeating-linear-gradient(
-		45deg,
-		#ffffff,
-		#ffffff 1rem,
-		#f56476ff 1rem,
-		#f56476ff 2rem,
-		#ffffff 2rem
-	); */
 
-	background: repeating-linear-gradient(
-		45deg,
-		#ffffff,
-		#f56476ff 1rem,
-		#ffffff 2rem
-	);
+/* .divider-button:hover {
+	text-decoration: underline;
+} */
+
+.divider-button:hover > .divider-button-background {
+	inset: 0.1rem;
+}
+
+.divider-button:active > .divider-button-background {
+	inset: 0.2rem;
 }

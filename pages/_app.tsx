@@ -25,9 +25,12 @@ const stateMap: {
 };
 
 const buttonMap: {
-	[state in Pages]?: { buttonText: string; onClick?: () => void };
+	[state in Pages]?: { buttonText: string; url?: string };
 } = {
-	resume: { buttonText: "View PDF" },
+	resume: {
+		buttonText: "View PDF",
+		url: "/Pringle_Adrien_Resume_22_External.pdf",
+	},
 };
 
 const getPage = (pathname: string) => {

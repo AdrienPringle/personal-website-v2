@@ -1,4 +1,4 @@
-import { CSSProperties, memo } from "react";
+import React, { CSSProperties, memo } from "react";
 
 import data, { JobData } from "./data";
 
@@ -22,7 +22,7 @@ const dateStyle: CSSProperties = {
 const detailsStyle: CSSProperties = {
 	gridColumn: 3,
 
-	padding: "1.2rem 1.2rem 1.2rem 1.7rem",
+	padding: "1.2rem 2.4rem 1.2rem 2.4rem",
 
 	margin: "2rem 0 4rem 3rem",
 	border: "0.08rem solid black",
@@ -43,11 +43,14 @@ const redDetail: CSSProperties = {
 const titleStyle: CSSProperties = {
 	fontSize: "1.5rem",
 	fontWeight: "bold",
+	marginTop: "0.5rem",
 	marginBottom: "0.5rem",
 };
 
 const contentStyle: CSSProperties = {
 	fontSize: "1.2rem",
+	marginTop: "1.2rem",
+	marginBottom: "0.5rem",
 };
 
 const dividerStyle: CSSProperties = {
@@ -64,22 +67,15 @@ const Resume = () => {
 			<div style={dividerStyle}></div>
 			{data.map(({ date, title, content }, i) => {
 				return (
-					<>
-						<div
-							style={dateStyle}
-							key={`resume-date-${i}`}
-							className={"resume-date"}
-						>
+					<React.Fragment key={`resume-item-${i}`}>
+						<div style={dateStyle} className={"resume-date"}>
 							{date}
 						</div>
-						<div
-							style={{ ...detailsStyle, ...(i === 0 && redDetail) }}
-							key={`resume-details-${i}`}
-						>
+						<div style={{ ...detailsStyle, ...(i === 0 && redDetail) }}>
 							<div style={titleStyle}>{title}</div>
-							<div style={contentStyle}>{content}</div>
+							{content && <div style={contentStyle}>{content}</div>}
 						</div>
-					</>
+					</React.Fragment>
 				);
 			})}
 		</div>

@@ -44,7 +44,7 @@ const titleStyle: CSSProperties = {
 };
 const descriptionStyle: CSSProperties = {
 	flexGrow: 1,
-	overflow: "scroll",
+	overflow: "auto",
 	marginBottom: "1rem",
 };
 const linkContainerStyle: CSSProperties = {

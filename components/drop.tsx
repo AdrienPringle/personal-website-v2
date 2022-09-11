@@ -1,4 +1,5 @@
 import { CSSProperties, memo } from "react";
+import Link from "next/link";
 
 export interface DropProps {
 	posx: number;
@@ -8,7 +9,7 @@ export interface DropProps {
 	opacity: number;
 	isActive: boolean;
 	content: string;
-	onClick: () => void;
+	link: string;
 	setIsHover: (isHover: boolean) => void;
 }
 
@@ -48,59 +49,65 @@ const Drop = ({
 	opacity,
 	isActive,
 	content,
-	onClick,
+	link,
 	setIsHover,
 }: DropProps) => {
+	const LinkTag = isActive ? Link : "div";
+	if (!isActive) setIsHover(false);
 	return (
-		<div
-			className="drop-container"
-			style={{
-				position: "relative",
-				pointerEvents: isActive ? "auto" : "none",
-			}}
-			onMouseEnter={() => setIsHover(true)}
-			onMouseLeave={() => setIsHover(false)}
-			onClick={onClick}
-		>
-			<div
-				className="drop"
+		<LinkTag href={link}>
+			<a
+				className="drop-container"
 				style={{
-					...containerStyle,
-					transform: `translate( ${posx}em,  ${posy}em )`,
-					filter: `opacity(${opacity}%)`,
+					position: "relative",
+					pointerEvents: isActive ? "auto" : "none",
+					color: "inherit",
 				}}
+				onMouseEnter={() => setIsHover(true)}
+				onFocus={() => setIsHover(true)}
+				onMouseLeave={() => setIsHover(false)}
+				onBlur={() => setIsHover(false)}
 			>
-				<svg
-					width="8em"
-					viewBox="0 0 30 80"
+				<div
+					className="drop"
 					style={{
-						...tailStyle,
-						transform: `translatey(4em) rotate(${angle}rad)`,
+						...containerStyle,
+						transform: `translate( ${posx}em,  ${posy}em )`,
+						filter: `opacity(${opacity}%)`,
 					}}
-					className="spin"
-					id="tail"
 				>
-					<linearGradient
-						id={`Gradient-${content}`}
-						x1="0"
-						x2="0"
-						y1="0"
-						y2="1"
+					<svg
+						width="8em"
+						viewBox="0 0 30 80"
+						style={{
+							...tailStyle,
+							transform: `translatey(4em) rotate(${angle}rad)`,
+						}}
+						className="spin"
+						id="tail"
 					>
-						<stop offset="0%" />
-						<stop offset={`${offset}%`} />
-					</linearGradient>
-					<path
-						xmlns="http://www.w3.org/2000/svg"
-						d="m13.993 80 2.0141-1.29e-4c0.82825-60.298 13.993-80 13.993-80h-30s13.639 19.586 13.993 80z"
-						style={{ ...tailPathStyle, fill: `url(#Gradient-${content})` }}
-					/>
-				</svg>
-				<div className="bud" style={budStyle}>
-					<div>{content}</div>
+						<linearGradient
+							id={`Gradient-${content}`}
+							x1="0"
+							x2="0"
+							y1="0"
+							y2="1"
+						>
+							<stop offset="0%" />
+							<stop offset={`${offset}%`} />
+						</linearGradient>
+						<path
+							xmlns="http://www.w3.org/2000/svg"
+							d="m13.993 80 2.0141-1.29e-4c0.82825-60.298 13.993-80 13.993-80h-30s13.639 19.586 13.993 80z"
+							style={{ ...tailPathStyle, fill: `url(#Gradient-${content})` }}
+						/>
+					</svg>
+					<div className="bud" style={budStyle}>
+						<div>{content}</div>
+					</div>
 				</div>
-			</div>
-		</div>
+			</a>
+		</LinkTag>
 	);
 };
 

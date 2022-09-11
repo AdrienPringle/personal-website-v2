@@ -1,11 +1,12 @@
 import { CSSProperties, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import AnimatedDrop, { AnimatedDropProps } from "./animatedDrop";
 
 type DropState = Omit<
 	AnimatedDropProps,
-	"content" | "key" | "onClick" | "isAnimating"
+	"content" | "key" | "link" | "isAnimating"
 >;
 
 const stateMainLeft: DropState = {
@@ -149,6 +150,7 @@ const nameStyle: CSSProperties = {
 	fontFamily: '"Josefin Slab", sans-serif',
 	zIndex: 2,
 	transition: "transform 0.2s",
+	color: "inherit",
 };
 const subStyle: CSSProperties = {
 	fontSize: "3rem",
@@ -209,6 +211,9 @@ const Header = ({ page, windowWidth }: HeaderProps) => {
 
 	const nameScale = isMain ? 1 : 0.3;
 	const subScale = isMain ? 1 : isMobile ? 2 : 2.5;
+
+	const NameTag = isMain ? "div" : Link;
+
 	return (
 		<div
 			style={{
@@ -218,16 +223,17 @@ const Header = ({ page, windowWidth }: HeaderProps) => {
 				})`,
 			}}
 		>
-			<div
-				style={{
-					...nameStyle,
-					transform: `scale(${nameScale}, ${nameScale})`,
-				}}
-				onClick={() => transition("/")}
-				className={isMain ? "" : "underline-hover"}
-			>
-				Adrien Pringle
-			</div>
+			<NameTag href={"/"}>
+				<a
+					className={isMain ? "" : "underline-hover"}
+					style={{
+						...nameStyle,
+						transform: `scale(${nameScale}, ${nameScale})`,
+					}}
+				>
+					Adrien Pringle
+				</a>
+			</NameTag>
 			<div
 				style={{
 					...subStyle,
@@ -242,19 +248,19 @@ const Header = ({ page, windowWidth }: HeaderProps) => {
 					content="resume"
 					isAnimating={isAnimating}
 					{...stateMap[page].resume[isMobile]}
-					onClick={() => transition("resume")}
+					link="/resume"
 				/>
 				<AnimatedDrop
 					content="contact"
 					isAnimating={isAnimating}
 					{...stateMap[page].contact[isMobile]}
-					onClick={() => transition("contact")}
+					link="/contact"
 				/>
 				<AnimatedDrop
 					content="projects"
 					isAnimating={isAnimating}
 					{...stateMap[page].projects[isMobile]}
-					onClick={() => transition("projects")}
+					link="/projects"
 				/>
 			</div>
 		</div>

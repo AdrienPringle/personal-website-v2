@@ -12,7 +12,7 @@ export interface AnimatedDropProps {
 	isActive: boolean;
 	isAnimating: boolean;
 	content: string;
-	onClick: () => void;
+	link: string;
 }
 
 function getAngle(
@@ -36,7 +36,7 @@ const AnimatedDrop = ({
 	isActive,
 	isAnimating,
 	content,
-	onClick,
+	link,
 }: AnimatedDropProps) => {
 	// const [posx, setPosx] = useState(0);
 	// const [posy, setPosy] = useState(0);
@@ -93,7 +93,7 @@ const AnimatedDrop = ({
 					opacity={value.opacity}
 					content={content}
 					isActive={isActive}
-					onClick={onClick}
+					link={link}
 					setIsHover={setIsHover}
 				/>
 			)}

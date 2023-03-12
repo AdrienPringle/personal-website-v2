@@ -37,7 +37,7 @@ const data: ProjectData[] = [
 			},
 			{
 				text: "GitHub",
-				url: "https://github.com/AdrienPringle/personal-website-v2",
+				url: "https://github.com/AdrienPringle/Pixel-Pyrotechnics",
 			},
 		],
 	},

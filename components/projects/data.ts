@@ -10,13 +10,13 @@ import gravity from "./images/gravity.png";
 import guitar from "./images/guitar.jpg";
 import pokecord from "./images/pokecord.png";
 import recursion from "./images/recursion.jpg";
-import soundboard from "./images/soundboard.png";
 import streaminar from "./images/streaminar.jpg";
 import tilegame from "./images/tilegame.jpg";
 import unfabled from "./images/unfabled.jpg";
 import hungryhungryfrogge from "./images/hungryhungryfrogge.png";
-import warpduels from "./images/warpduels.png";
+import warpduels from "./images/warpduels.jpg";
 import ytnav from "./images/ytnav.jpg";
+import pixelPyrotechnics from "./images/pixel-pyrotechnics.jpg";
 
 export interface ProjectData {
 	title: string;
@@ -27,17 +27,32 @@ export interface ProjectData {
 
 const data: ProjectData[] = [
 	{
+		title: "Pixel Pyrotechnics",
+		img: pixelPyrotechnics,
+		description: "Voxel puzzles to blow your mind!",
+		links: [
+			{
+				text: "itch.io",
+				url: "https://chip2222.itch.io/pixel-pyrotechnics",
+			},
+			{
+				text: "GitHub",
+				url: "https://github.com/AdrienPringle/personal-website-v2",
+			},
+		],
+	},
+	{
 		title: "Unfabled",
 		img: unfabled,
 		description:
 			"Play as a a mad wizard whose horse has been stolen from its stable! Standing between you and your horse is a treacherous forest filled with beasts and guards attempting to stop you in your path!",
 		links: [
 			{
-				text: "Itch.io",
+				text: "itch.io",
 				url: "https://kwiper01.itch.io/unfabled",
 			},
 			{
-				text: "Github",
+				text: "GitHub",
 				url: "https://github.com/Kwiper/Unfabled",
 			},
 		],
@@ -53,7 +68,7 @@ const data: ProjectData[] = [
 				url: "https://devpost.com/software/hungre-hungre-frogge",
 			},
 			{
-				text: "Github",
+				text: "GitHub",
 				url: "https://github.com/AdrienPringle/HTN-team-brain-damage",
 			},
 		],
@@ -69,7 +84,7 @@ const data: ProjectData[] = [
 				url: "https://every-border.web.app/",
 			},
 			{
-				text: "Github",
+				text: "GitHub",
 				url: "https://github.com/AdrienPringle/Border-Distance-Visualiser",
 			},
 		],
@@ -85,7 +100,7 @@ const data: ProjectData[] = [
 				url: "https://recursive.apringle.dev/",
 			},
 			{
-				text: "Github",
+				text: "GitHub",
 				url: "https://github.com/AdrienPringle/recursive-reacts",
 			},
 		],
@@ -136,7 +151,7 @@ const data: ProjectData[] = [
 		description: "A prank Discord bot that imitates Pokécord.",
 		links: [
 			{
-				text: "Github",
+				text: "GitHub",
 				url: "https://github.com/AdrienPringle/fake-pokecord#readme",
 			},
 		],
@@ -148,7 +163,7 @@ const data: ProjectData[] = [
 		description: "An ongoing attempt to detect strings from chords.",
 		links: [
 			{
-				text: "Github",
+				text: "GitHub",
 				url: "https://github.com/AdrienPringle/guitar-string-detector#readme",
 			},
 		],
